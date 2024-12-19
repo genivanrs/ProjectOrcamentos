@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serviços de Eletricistas</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f9;
+      color: #333;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #003366;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .services {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .service-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: calc(33.333% - 20px);
+      padding: 20px;
+      position: relative;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .service-card img {
+      max-width: 100px;
+      margin-bottom: 15px;
+    }
+
+    .service-card h3 {
+      color: #003366;
+      margin-bottom: 10px;
+    }
+
+    .service-card p {
+      margin-bottom: 10px;
+    }
+
+    .service-card button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 15px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .service-card button:hover {
+      background-color: #0056b3;
+    }
+
+    .floating-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      width: 90%;
+      max-width: 800px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      color: #003366;
+    }
+
+    .modal-header button {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .modal-header button:hover {
+      background-color: #c82333;
+    }
+
+    .cart table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    .cart th, .cart td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .cart th {
+      background-color: #003366;
+      color: #fff;
+    }
+
+    .cart .total {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .modal-buttons button {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 15px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal-buttons button:hover {
+      background-color: #218838;
+    }
+
+    @media (max-width: 768px) {
+      .service-card {
+        width: calc(50% - 20px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .service-card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Serviços de Eletricistas</h1>
+
+    <div class="services">
+      <div class="service-card" data-service="Troca de Tomada" data-price="50">
+        <img src="https://via.placeholder.com/100" alt="Troca de Tomada">
+        <h3>Troca de Tomada</h3>
+        <p>R$ 50,00</p>
+        <button>Adicionar</button>
+      </div>
+      <div class="service-card" data-service="Instalação de Luminária" data-price="100">
+        <img src="https://via.placeholder.com/100" alt="Instalação de Luminária">
+        <h3>Instalação de Luminária</h3>
+        <p>R$ 100,00</p>
+        <button>Adicionar</button>
+      </div>
+      <div class="service-card" data-service="Reparo Elétrico" data-price="150">
+        <img src="https://via.placeholder.com/100" alt="Reparo Elétrico">
+        <h3>Reparo Elétrico</h3>
+        <p>R$ 150,00</p>
+        <button>Adicionar</button>
+      </div>
+    </div>
+
+    <button id="generate-quote" style="margin-top: 20px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      Gerar Orçamento
+    </button>
+  </div>
+
+  <div class="floating-modal" id="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Orçamento</h2>
+        <button id="close-modal">Voltar</button>
+      </div>
+      <div class="cart">
+        <table>
+          <thead>
+            <tr>
+              <th>Serviço</th>
+              <th>Quantidade</th>
+              <th>Valor Unitário (R$)</th>
+              <th>Valor Total (R$)</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="cart-items">
+            <tr>
+              <td colspan="5">Nenhum serviço selecionado</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" class="total">Total Geral</td>
+              <td colspan="2" class="total" id="total-price">R$ 0,00</td>
+            </tr>
+          </tfoot>
+        </table>
+        <div class="modal-buttons">
+          <button id="generate-pdf">Gerar PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const services = document.querySelectorAll('.service-card button');
+    const cartItems = document.getElementById('cart-items');
+    const totalPriceElement = document.getElementById('total-price');
+    const modal = document.getElementById('modal');
+    const closeModal = document.getElementById('close-modal');
+    const generateQuoteButton = document.getElementById('generate-quote');
+    const generatePdfButton = document.getElementById('generate-pdf');
+
+    let cart = [];
+    let total = 0;
+
+    services.forEach(service => {
+      service.addEventListener('click', () => {
+        const card = service.parentElement;
+        const serviceName = card.getAttribute('data-service');
+        const servicePrice = parseFloat(card.getAttribute('data-price'));
+
+        const existingService = cart.find(item => item.name === serviceName);
+
+        if (existingService) {
+          existingService.quantity++;
+          existingService.totalPrice += servicePrice;
+        } else {
+          cart.push({ name: serviceName, unitPrice: servicePrice, quantity: 1, totalPrice: servicePrice });
+        }
+
+        renderCart();
+      });
+    });
+
+    function renderCart() {
+      cartItems.innerHTML = '';
+      cart.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.quantity}</td>
+          <td>R$ ${item.unitPrice.toFixed(2)}</td>
+          <td>R$ ${item.totalPrice.toFixed(2)}</td>
+          <td><button onclick="removeService(${index})" style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer;">Remover</button></td>
+        `;
+        cartItems.appendChild(row);
+      });
+
+      total = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+      totalPriceElement.textContent = `R$ ${total.toFixed(2)}`;
+    }
+
+    function removeService(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    generateQuoteButton.addEventListener('click', () => {
+      if (cart.length === 0) {
+        alert('Nenhum serviço foi selecionado.');
+      } else {
+        modal.style.display = 'flex';
+      }
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    generatePdfButton.addEventListener('click', () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  // Centraliza o título
+  doc.text('Orçamento de Serviços', 105, 10, { align: 'center' });
+
+  const tableData = cart.map(item => [
+    item.name,
+    item.quantity,
+    `R$ ${item.unitPrice.toFixed(2)}`,
+    `R$ ${item.totalPrice.toFixed(2)}`
+  ]);
+
+  doc.autoTable({
+    head: [['Serviço', 'Quantidade', 'Valor Unitário (R$)', 'Valor Total (R$)']],
+    body: tableData,
+    startY: 20
+  });
+
+  // Adiciona o total geral alinhado à direita
+  const totalText = `Total Geral: R$ ${total.toFixed(2)}`;
+  const totalX = doc.getStringUnitWidth(totalText) * 1.5; // Calcula a largura do texto
+  doc.text(totalText, 210 - totalX, doc.previousAutoTable.finalY + 10, { align: 'right' });
+
+  doc.save('orcamento.pdf');
+});
+
+  </script>
+</body>
+</html>

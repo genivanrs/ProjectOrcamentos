@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serviços de Eletricistas</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="container">
+      <h1>Serviços de Eletricistas</h1>
+  
+      <div class="services">
+        <div class="service-card" data-service="Troca de Tomada" data-price="50">
+          <img src="https://via.placeholder.com/100" alt="Troca de Tomada">
+          <h3>Troca de Tomada</h3>
+          <p>R$ 50,00</p>
+          <button>Adicionar</button>
+        </div>
+        <div class="service-card" data-service="Instalação de Luminária" data-price="100">
+          <img src="https://via.placeholder.com/100" alt="Instalação de Luminária">
+          <h3>Instalação de Luminária</h3>
+          <p>R$ 100,00</p>
+          <button>Adicionar</button>
+        </div>
+        <div class="service-card" data-service="Reparo Elétrico" data-price="150">
+          <img src="https://via.placeholder.com/100" alt="Reparo Elétrico">
+          <h3>Reparo Elétrico</h3>
+          <p>R$ 150,00</p>
+          <button>Adicionar</button>
+        </div>
+      </div>
+  
+      <button id="generate-quote" style="margin-top: 20px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
+        Gerar Orçamento
+      </button>
+    </div>
+  
+    <div class="floating-modal" id="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Orçamento</h2>
+          <button id="close-modal">Voltar</button>
+        </div>
+        <div class="cart">
+          <table>
+            <thead>
+              <tr>
+                <th>Serviço</th>
+                <th>Quantidade</th>
+                <th>Valor Unitário (R$)</th>
+                <th>Valor Total (R$)</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="cart-items">
+              <tr>
+                <td colspan="5">Nenhum serviço selecionado</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" class="total">Total Geral</td>
+                <td colspan="2" class="total" id="total-price">R$ 0,00</td>
+              </tr>
+            </tfoot>
+          </table>
+          <div class="modal-buttons">
+            <button id="generate-pdf">Gerar PDF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/script.js"></script>
+  </body>
+</html>

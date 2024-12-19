@@ -1,0 +1,171 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  body {
+    background-color: #f4f4f9;
+    color: #333;
+    padding: 20px;
+  }
+
+  h1 {
+    text-align: center;
+    color: #003366;
+    margin-bottom: 20px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .service-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: calc(33.333% - 20px);
+    padding: 20px;
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .service-card img {
+    max-width: 100px;
+    margin-bottom: 15px;
+  }
+
+  .service-card h3 {
+    color: #003366;
+    margin-bottom: 10px;
+  }
+
+  .service-card p {
+    margin-bottom: 10px;
+  }
+
+  .service-card button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .service-card button:hover {
+    background-color: #0056b3;
+  }
+
+  .floating-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .modal-header h2 {
+    margin: 0;
+    color: #003366;
+  }
+
+  .modal-header button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  .modal-header button:hover {
+    background-color: #c82333;
+  }
+
+  .cart table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+
+  .cart th, .cart td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .cart th {
+    background-color: #003366;
+    color: #fff;
+  }
+
+  .cart .total {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .modal-buttons button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .modal-buttons button:hover {
+    background-color: #218838;
+  }
+
+  @media (max-width: 768px) {
+    .service-card {
+      width: calc(50% - 20px);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .service-card {
+      width: 100%;
+    }
+  }
